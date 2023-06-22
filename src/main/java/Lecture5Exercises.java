@@ -6,7 +6,12 @@ public class Lecture5Exercises {
      *   lecture 5 page 14
      */
     public String weakPassword(int length) {
-        return null;
+        String result = "";
+        Random randomNumber = new Random();
+        for (int i = 0; i < length; i++) {
+            result = result + (char)(randomNumber.nextInt(26) + 97);
+        }
+        return result;
     }
 
     /*
@@ -15,7 +20,35 @@ public class Lecture5Exercises {
      *   lecture 5 page 14
      */
     public String strongPassword(int length) throws Exception {
-        return null;
+
+        if (length < 3) {
+            throw new IllegalArgumentException("Password must be at least 3 characters!");
+        }
+
+        String password = "";
+        String lowerCaseAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String digits = "0123456789";
+        String specialCharacters = "!@#$%^&*()_-+={}[]|\\:;\"'<>,.?/`~";
+        Random random = new Random();
+
+        password += digits.charAt(random.nextInt(digits.length()));
+        password += specialCharacters.charAt(random.nextInt(specialCharacters.length()));
+
+        for (int i = 0 ; i < length - 2 ; i++) {
+            int index = random.nextInt(lowerCaseAlphabet.length());
+            password += lowerCaseAlphabet.charAt(index);
+        }
+
+        char[] passwordArray = password.toCharArray();
+        for (int i = passwordArray.length - 1 ; i > 0 ; i--) {
+            int index = random.nextInt(i + 1);
+            char placeHolder = passwordArray[index];
+            passwordArray[index] = passwordArray[i];
+            passwordArray[i] = placeHolder;
+        }
+        password = new String(passwordArray);
+
+        return password;
     }
 
     /*
@@ -27,6 +60,16 @@ public class Lecture5Exercises {
      *   lecture 5 page 17
      */
     public boolean isFiboBin(int n) {
+        int first = 0;
+        int second = 1;
+        while(second <= n) {
+            int third = first + second;
+            if((n - second) == Integer.bitCount(third)){
+                return true;
+            }
+            first = second;
+            second = third;
+        }
         return false;
     }
 }
